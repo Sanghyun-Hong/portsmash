@@ -36,9 +36,9 @@ def running_mean(x, N):
     return (cumsum[N:] - cumsum[:-N]) / N
 
 try:
-    fp = open(sys.argv[1])
+    fp = open(sys.argv[1], 'rb')
 except:
-    print "Usage: python %s <timings.bin>" % (sys.argv[0])
+    print ("Usage: python %s <timings.bin>" % (sys.argv[0]))
     sys.exit(1)
 
 out = fp.read()
@@ -52,7 +52,7 @@ lats = []
 for i in range(0,len(timings),2):
     lats.append(timings[i+1]-timings[i])
 
-lats = map(normalize, lats)
+lats = list(map(normalize, lats))
 ma2 = running_mean(lats, 2)
 ma4 = running_mean(lats, 4)
 # (9,3) are tweakable parameters
@@ -78,6 +78,7 @@ try:
 except:
     warnings.warn("scipy.signal.find_peaks not found: Consult README.md")
 
+#plt.savefig('parse_raw_simple.png')
 plt.get_current_fig_manager().full_screen_toggle()
 plt.show()
-
+# done.
